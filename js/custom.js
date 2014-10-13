@@ -27,7 +27,7 @@ function SlotMachine (prizes) {
 	this.prizes = prizes;
 	this.slots = []; // An array of slot objects
 	this.value = null; // The value after playing the slot machine
-	var slotSpin;
+	var slotSpin = 0; // Keeps track of number of slots that are done spinning
 
 	/*
 		Plays the slot machine returns the won prize, null if you didn't win
@@ -59,8 +59,8 @@ function SlotMachine (prizes) {
 	*/
 	this.finishSlotSpin = function () {
 		slotSpin++;
+		// Check if all slots are done spinning
 		if (slotSpin === this.slots.length) {
-			debugger
 			if (this.value) {
 				$(".result").html("Nice! You won " + this.prizes[this.value]);
 			} else {
@@ -98,6 +98,7 @@ function SlotMachine (prizes) {
 }
 
 /*
+	A Slot object used by a SlotMachine
 	elem: DOM object
 	numItems: the number of items in the slot
 	slotItems: an array of prizes in the slot
@@ -114,7 +115,7 @@ function Slot (elem, slotItems, slotMachine) {
 		this.elem.animate({
 			'background-position-y': '5000px'
 		}, 2000, 'linear', function () {
-			this.innerHTML = '<div class="' + that.slotItems[that.value] + '"></div>';
+			that.elem.html('<div class="' + that.slotItems[that.value] + '"></div>');
 			that.elem.addClass('hidden');
 			that.elem.css({'background-position-y': '30px'});
 			that.slotMachine.finishSlotSpin();
